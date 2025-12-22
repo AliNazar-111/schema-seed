@@ -2,7 +2,7 @@ export default {
     dbType: 'mongodb',
     seed: 123,
     mongodb: {
-        uri: process.env.DB_URL || 'mongodb://localhost:27017/appdb',
+        uri: 'mongodb://localhost:27017/appdb',
 
         collections: {
             users: {
