@@ -19,7 +19,7 @@ describe('CLI Config Merge', () => {
 
         const merged = { ...config, ...cliOptions }
 
-        expect(merged.rows).toBe(20) // From config
+        expect((merged as any).rows).toBe(20) // From config
         expect(merged.db).toBe('postgres://cli') // From CLI (overrides config)
         expect(merged.table).toEqual(['users']) // From CLI
     })

@@ -33,7 +33,8 @@ function checkProductionSafety(options: { allowProduction?: boolean }, dbUrl?: s
 export async function runSeedMongo(
     adapter: MongoAdapter,
     config: MongoSeedConfig,
-    options: { dryRun?: boolean; allowProduction?: boolean } = {}
+    options: { dryRun?: boolean; allowProduction?: boolean } = {},
+    context: { generators: Record<string, (ctx: any) => any> }
 ): Promise<EffectReport> {
     const startTime = Date.now()
     const report: EffectReport = {
@@ -82,7 +83,11 @@ export async function runSeedMongo(
 
             try {
                 for (let i = 0; i < collConfig.rows; i++) {
-                    const doc = generateMongoDocument(collConfig.fields, { random, refs })
+                    const doc = generateMongoDocument(collConfig.fields, {
+                        random,
+                        refs,
+                        generators: context.generators
+                    })
                     docs.push(doc)
                 }
 

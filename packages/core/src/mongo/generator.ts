@@ -1,11 +1,11 @@
 import { Random } from '../random.js'
 import { ReferenceRegistry } from '../generate/refs.js'
-import { generators } from '@schema-seed/generators'
-import { MongoFieldConfig, MongoCollectionConfig, MongoFieldType } from './types.js'
+import { MongoFieldConfig, MongoFieldType } from './types.js'
 
 export interface MongoGeneratorContext {
     random: Random
     refs: ReferenceRegistry
+    generators: Record<string, (ctx: any) => any>
 }
 
 export function generateMongoDocument(
@@ -65,35 +65,35 @@ function generateByType(type: MongoFieldType, config: any, ctx: MongoGeneratorCo
         case 'date':
             return new Date(ctx.random.nextInt(0, Date.now())).toISOString()
         case 'dateRecent':
-            return generators.dateRecent(ctx)
+            return ctx.generators.dateRecent(ctx)
         case 'dateBetween':
             const from = new Date(config.from ?? '2020-01-01').getTime()
             const to = new Date(config.to ?? Date.now()).getTime()
             return new Date(ctx.random.nextInt(from, to)).toISOString()
         case 'email':
-            return generators.email(ctx)
+            return ctx.generators.email(ctx)
         case 'firstName':
-            return generators.firstName(ctx)
+            return ctx.generators.firstName(ctx)
         case 'lastName':
-            return generators.lastName(ctx)
+            return ctx.generators.lastName(ctx)
         case 'fullName':
-            return generators.fullName(ctx)
+            return ctx.generators.fullName(ctx)
         case 'city':
-            return generators.city(ctx)
+            return ctx.generators.city(ctx)
         case 'country':
-            return generators.country(ctx)
+            return ctx.generators.country(ctx)
         case 'street':
-            return generators.address(ctx)
+            return ctx.generators.address(ctx)
         case 'phone':
-            return generators.phone(ctx)
+            return ctx.generators.phone(ctx)
         case 'uuid':
-            return generators.uuid(ctx)
+            return ctx.generators.uuid(ctx)
         case 'string':
-            return generators.firstName(ctx) // Fallback
+            return ctx.generators.firstName(ctx) // Fallback
         default:
             // If it matches a generator name, use it
-            if ((generators as any)[type]) {
-                return (generators as any)[type](ctx)
+            if (ctx.generators[type]) {
+                return ctx.generators[type](ctx)
             }
             return null
     }

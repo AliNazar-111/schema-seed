@@ -123,7 +123,7 @@ commonOptions(program.command('seed'))
                 report = await runSeedMongo(adapter as any, mergedOptions as any, {
                     dryRun: mergedOptions.dryRun,
                     allowProduction: mergedOptions.allowProduction
-                })
+                }, { generators })
             } else {
                 await adapter.connect()
                 const schema = await (adapter as any).introspectSchema()
