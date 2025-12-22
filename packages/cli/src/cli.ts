@@ -102,7 +102,11 @@ commonOptions(program.command('seed'))
             }
         }
 
-        const dbUrl = mergedOptions.db
+        let dbUrl = mergedOptions.db
+        if (mergedOptions.dbType === 'mongodb' && mergedOptions.mongodb?.uri) {
+            dbUrl = mergedOptions.mongodb.uri
+        }
+
         if (!dbUrl) {
             console.error('Error: Database connection string (--db) is required')
             process.exit(1)
@@ -112,27 +116,16 @@ commonOptions(program.command('seed'))
 
         try {
             const adapter = await getAdapter(dbType, dbUrl)
-            await adapter.connect()
 
             let report;
             if (dbType === 'mongodb') {
-                // For MongoDB, we either use the provided config schema or try to introspect
-                const collections = await (adapter as any).introspectCollections()
-                const mongoSchema = (mergedOptions as any).mongoSchema || { collections: {} }
-
-                // Merge introspected collections into schema if not present
-                for (const coll of collections) {
-                    if (!mongoSchema.collections[coll]) {
-                        mongoSchema.collections[coll] = { name: coll, fields: {} }
-                    }
-                }
-
-                report = await runSeedMongo(adapter as any, mongoSchema, mergedOptions, {
-                    generators,
-                    inferGenerator,
-                    overrides: mergedOptions.overrides
+                // For MongoDB, we use the new config-based seeding
+                report = await runSeedMongo(adapter as any, mergedOptions as any, {
+                    dryRun: mergedOptions.dryRun,
+                    allowProduction: mergedOptions.allowProduction
                 })
             } else {
+                await adapter.connect()
                 const schema = await (adapter as any).introspectSchema()
                 const plan = createSeedPlan(schema, mergedOptions, (adapter as any).capabilities?.deferrableConstraints)
 

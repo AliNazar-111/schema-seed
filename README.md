@@ -74,36 +74,72 @@ export default defineConfig({
 });
 ```
 
-## MongoDB Support
+## MongoDB Seeding (Config-Based)
 
-`schema-seed` supports MongoDB with cross-collection references.
+`schema-seed` supports MongoDB seeding exclusively through a `seed.config.ts` file. Since MongoDB is schema-less, you must define the structure of the documents you want to generate.
+
+### Example Configuration
 
 ```typescript
 // seed.config.ts
 export default {
-  db: "mongodb://localhost:27017/shop",
-  mongoSchema: {
+  dbType: "mongodb",
+  seed: 123, // Deterministic random seed
+  The seed option controls how random data is generated. When a seed value is provided (for example seed: 123), Schema-Seed will generate the same data every time you run the seeder with the same configuration. This makes database seeding deterministic and reproducible, which is especially useful for team environments, CI pipelines, debugging, and demos. Changing the seed value will produce a different, but still consistent, dataset. If no seed is provided, the generated data will be random on each run.
+  mongodb: {
+    uri: "mongodb://localhost:27017/appdb",
+
     collections: {
       users: {
-        name: 'users',
+        rows: 200,
         fields: {
-          name: { name: 'name', type: 'string' },
-          email: { name: 'email', type: 'string' }
+          _id: "objectId",
+          email: { type: "email", unique: true },
+          firstName: "firstName",
+          lastName: "lastName",
+          age: { type: "int", min: 18, max: 65 },
+          status: {
+            type: "enum",
+            values: ["active", "blocked"],
+            weights: [95, 5]
+          },
+          profile: {
+            type: "object",
+            fields: {
+              city: "city",
+              country: "country"
+            }
+          },
+          createdAt: {
+            type: "dateBetween",
+            from: "2024-01-01",
+            to: "2025-12-31"
+          }
         }
       },
+
       orders: {
-        name: 'orders',
+        rows: 500,
         fields: {
-          total: { name: 'total', type: 'decimal' },
-          userId: { name: 'userId', type: 'objectid' }
-        },
-        // Define relationship
-        references: { userId: 'users._id' }
+          _id: "objectId",
+          userId: { ref: "users._id" }, // Reference to another collection
+          total: { type: "decimal", min: 5, max: 500 },
+          createdAt: "dateRecent"
+        }
       }
     }
   }
-}
+};
 ```
+
+### Key Features
+
+- **References**: Use `{ ref: "collection.field" }` to link documents across collections. `schema-seed` automatically calculates the correct insertion order.
+- **Nested Objects**: Define complex structures using the `object` type and a nested `fields` map.
+- **Arrays**: Use the `array` type with `of` to generate lists of values.
+- **Deterministic**: Provide a `seed` at the top level to ensure the same data is generated every time.
+- **Safety**: Production detection prevents accidental seeding of live databases unless `--allow-production` is used.
+
 
 ## Safety Features
 

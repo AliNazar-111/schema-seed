@@ -1,37 +1,47 @@
-import { defineConfig } from '@schema-seed/cli'
-import { NormalizedSqlType } from '@schema-seed/core'
+export default {
+    dbType: 'mongodb',
+    seed: 123,
+    mongodb: {
+        uri: process.env.DB_URL || 'mongodb://localhost:27017/appdb',
 
-export default defineConfig({
-    // Replace <password> with your actual MongoDB password
-    db: process.env.DB_URL,
-
-    // MongoDB specific schema (since Mongo is schema-less, we define the fields we want to seed)
-    mongoSchema: {
         collections: {
             users: {
-                name: 'users',
+                rows: 10,
                 fields: {
-                    email: { name: 'email', type: NormalizedSqlType.STRING, rawType: 'string', nullable: false, isAutoIncrement: false },
-                    firstName: { name: 'firstName', type: NormalizedSqlType.STRING, rawType: 'string', nullable: false, isAutoIncrement: false },
-                    lastName: { name: 'lastName', type: NormalizedSqlType.STRING, rawType: 'string', nullable: false, isAutoIncrement: false },
-                    age: { name: 'age', type: NormalizedSqlType.INT, rawType: 'int', nullable: true, isAutoIncrement: false },
-                    createdAt: { name: 'createdAt', type: NormalizedSqlType.DATETIME, rawType: 'date', nullable: false, isAutoIncrement: false }
+                    _id: 'objectId',
+                    email: { type: 'email', unique: true },
+                    firstName: 'firstName',
+                    lastName: 'lastName',
+                    age: { type: 'int', min: 18, max: 65 },
+                    status: {
+                        type: 'enum',
+                        values: ['active', 'blocked'],
+                        weights: [95, 5]
+                    },
+                    profile: {
+                        type: 'object',
+                        fields: {
+                            city: 'city',
+                            country: 'country'
+                        }
+                    },
+                    createdAt: {
+                        type: 'dateBetween',
+                        from: '2024-01-01',
+                        to: '2025-12-31'
+                    }
                 }
             },
-            posts: {
-                name: 'posts',
+
+            orders: {
+                rows: 20,
                 fields: {
-                    title: { name: 'title', type: NormalizedSqlType.STRING, rawType: 'string', nullable: false, isAutoIncrement: false },
-                    content: { name: 'content', type: NormalizedSqlType.TEXT, rawType: 'string', nullable: false, isAutoIncrement: false },
-                    authorId: { name: 'authorId', type: NormalizedSqlType.OBJECTID, rawType: 'objectid', nullable: false, isAutoIncrement: false }
-                },
-                references: {
-                    authorId: 'users._id'
+                    _id: 'objectId',
+                    userId: { ref: 'users._id' },
+                    total: { type: 'decimal', min: 5, max: 500 },
+                    createdAt: 'dateRecent'
                 }
             }
         }
-    },
-
-    rows: 10, // Seed 10 rows per collection
-    truncate: true, // Clear collections before seeding
-})
+    }
+}
