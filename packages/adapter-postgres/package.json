@@ -1,49 +1,59 @@
 {
-  "name": "@schema-seed/adapter-postgres",
-  "version": "0.0.1",
-  "type": "module",
-  "description": "PostgreSQL adapter for schema-seed",
-  "author": "Ali Nazar",
-  "license": "MIT",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/AliNazar-111/schema-seed.git"
-  },
-  "keywords": [
-    "database",
-    "seeding",
-    "test-data",
-    "adapter",
-    "schema-seed"
-  ],
-  "main": "./dist/index.cjs",
-  "module": "./dist/index.js",
-  "types": "./dist/index.d.ts",
-  "exports": {
-    ".": {
-      "types": "./dist/index.d.ts",
-      "import": "./dist/index.js",
-      "require": "./dist/index.cjs"
+    "name": "@alinazar-111/schema-seed-adapter-postgres",
+    "version": "0.1.0",
+    "type": "module",
+    "description": "PostgreSQL adapter for schema-seed",
+    "author": "Ali Nazar",
+    "license": "MIT",
+    "private": false,
+    "sideEffects": false,
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/alinazar-111/schema-seed.git"
+    },
+    "homepage": "https://github.com/alinazar-111/schema-seed#readme",
+    "bugs": {
+        "url": "https://github.com/alinazar-111/schema-seed/issues"
+    },
+    "keywords": [
+        "database",
+        "seeding",
+        "test-data",
+        "adapter",
+        "schema-seed"
+    ],
+    "main": "./dist/index.cjs",
+    "module": "./dist/index.js",
+    "types": "./dist/index.d.ts",
+    "exports": {
+        ".": {
+            "types": "./dist/index.d.ts",
+            "import": "./dist/index.js",
+            "require": "./dist/index.cjs"
+        }
+    },
+    "files": [
+        "dist",
+        "README.md",
+        "LICENSE"
+    ],
+    "scripts": {
+        "build": "tsup",
+        "clean": "rm -rf dist",
+        "dev": "tsup --watch",
+        "lint": "eslint .",
+        "test": "vitest run --passWithNoTests",
+        "typecheck": "tsc --noEmit",
+        "prepublishOnly": "pnpm build"
+    },
+    "dependencies": {
+        "@alinazar-111/schema-seed-core": "workspace:*",
+        "pg": "^8.13.1"
+    },
+    "devDependencies": {
+        "@types/pg": "^8.11.10",
+        "tsup": "^8.3.5",
+        "typescript": "^5.7.2",
+        "vitest": "^2.1.8"
     }
-  },
-  "files": [
-    "dist"
-  ],
-  "scripts": {
-    "build": "tsup",
-    "dev": "tsup --watch",
-    "lint": "eslint .",
-    "test": "vitest run --passWithNoTests",
-    "typecheck": "tsc --noEmit"
-  },
-  "dependencies": {
-    "@schema-seed/core": "workspace:*",
-    "pg": "^8.13.1"
-  },
-  "devDependencies": {
-    "@types/pg": "^8.11.10",
-    "tsup": "^8.3.5",
-    "typescript": "^5.7.2",
-    "vitest": "^2.1.8"
-  }
 }

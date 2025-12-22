@@ -66,10 +66,11 @@ function generateByType(type: MongoFieldType, config: any, ctx: MongoGeneratorCo
             return new Date(ctx.random.nextInt(0, Date.now())).toISOString()
         case 'dateRecent':
             return ctx.generators.dateRecent(ctx)
-        case 'dateBetween':
+        case 'dateBetween': {
             const from = new Date(config.from ?? '2020-01-01').getTime()
             const to = new Date(config.to ?? Date.now()).getTime()
             return new Date(ctx.random.nextInt(from, to)).toISOString()
+        }
         case 'email':
             return ctx.generators.email(ctx)
         case 'firstName':

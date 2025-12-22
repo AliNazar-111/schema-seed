@@ -1,59 +1,67 @@
 {
-  "name": "@schema-seed/cli",
-  "version": "0.0.1",
-  "type": "module",
-  "description": "CLI for schema-seed",
-  "author": "Ali Nazar",
-  "license": "MIT",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/AliNazar-111/schema-seed.git"
-  },
-  "keywords": [
-    "database",
-    "seeding",
-    "test-data",
-    "cli",
-    "schema-seed"
-  ],
-  "main": "./dist/index.cjs",
-  "module": "./dist/index.js",
-  "types": "./dist/index.d.ts",
-  "exports": {
-    ".": {
-      "types": "./dist/index.d.ts",
-      "import": "./dist/index.js",
-      "require": "./dist/index.cjs"
+    "name": "@alinazar-111/schema-seed",
+    "version": "0.1.0",
+    "type": "module",
+    "description": "CLI for schema-seed",
+    "author": "Ali Nazar",
+    "license": "MIT",
+    "private": false,
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/alinazar-111/schema-seed.git"
+    },
+    "homepage": "https://github.com/alinazar-111/schema-seed#readme",
+    "bugs": {
+        "url": "https://github.com/alinazar-111/schema-seed/issues"
+    },
+    "keywords": [
+        "database",
+        "seeding",
+        "test-data",
+        "cli",
+        "schema-seed"
+    ],
+    "main": "./dist/index.js",
+    "module": "./dist/index.js",
+    "exports": {
+        ".": {
+            "import": "./dist/index.js"
+        }
+    },
+    "bin": {
+        "schema-seed": "./dist/bin.js"
+    },
+    "files": [
+        "dist",
+        "README.md",
+        "LICENSE"
+    ],
+    "scripts": {
+        "build": "tsup",
+        "clean": "rm -rf dist",
+        "dev": "tsup --watch",
+        "lint": "eslint .",
+        "test": "vitest run --passWithNoTests",
+        "typecheck": "tsc --noEmit",
+        "prepublishOnly": "pnpm build"
+    },
+    "dependencies": {
+        "@alinazar-111/schema-seed-core": "workspace:*",
+        "@alinazar-111/schema-seed-generators": "workspace:*",
+        "commander": "^12.1.0",
+        "dotenv": "^17.2.3",
+        "jiti": "^2.6.1"
+    },
+    "devDependencies": {
+        "@alinazar-111/schema-seed-adapter-mongodb": "workspace:*",
+        "@alinazar-111/schema-seed-adapter-mysql": "workspace:*",
+        "@alinazar-111/schema-seed-adapter-postgres": "workspace:*",
+        "@alinazar-111/schema-seed-adapter-sqlite": "workspace:*",
+        "@alinazar-111/schema-seed-adapter-mssql": "workspace:*",
+        "@alinazar-111/schema-seed-adapter-oracle": "workspace:*",
+        "@types/node": "^20.19.27",
+        "tsup": "^8.3.5",
+        "typescript": "^5.7.2",
+        "vitest": "^2.1.8"
     }
-  },
-  "bin": {
-    "schema-seed": "./dist/cli.js"
-  },
-  "files": [
-    "dist"
-  ],
-  "scripts": {
-    "build": "tsup",
-    "dev": "tsup --watch",
-    "lint": "eslint .",
-    "test": "vitest run --passWithNoTests",
-    "typecheck": "tsc --noEmit"
-  },
-  "dependencies": {
-    "@schema-seed/adapter-mongodb": "workspace:*",
-    "@schema-seed/adapter-mysql": "workspace:*",
-    "@schema-seed/adapter-postgres": "workspace:*",
-    "@schema-seed/adapter-sqlite": "workspace:*",
-    "@schema-seed/core": "workspace:*",
-    "@schema-seed/generators": "workspace:*",
-    "commander": "^12.1.0",
-    "dotenv": "^17.2.3",
-    "jiti": "^2.6.1"
-  },
-  "devDependencies": {
-    "@types/node": "^20.19.27",
-    "tsup": "^8.3.5",
-    "typescript": "^5.7.2",
-    "vitest": "^2.1.8"
-  }
 }

@@ -1,4 +1,4 @@
-import { NormalizedSqlType } from '@schema-seed/core'
+import { NormalizedSqlType } from '@alinazar-111/schema-seed-core'
 import { GeneratorId } from './generators.js'
 
 export interface InferredGenerator {

@@ -3,7 +3,7 @@ import { createMongoPlan } from './planner.js'
 import { generateMongoDocument } from './generator.js'
 import { Random } from '../random.js'
 import { ReferenceRegistry } from '../generate/refs.js'
-import { EffectReport } from '../types.js'
+import { EffectReport, RunnerContext } from '../types.js'
 import { MongoAdapter } from '../adapter.js'
 
 function checkProductionSafety(options: { allowProduction?: boolean }, dbUrl?: string) {
@@ -34,7 +34,7 @@ export async function runSeedMongo(
     adapter: MongoAdapter,
     config: MongoSeedConfig,
     options: { dryRun?: boolean; allowProduction?: boolean } = {},
-    context: { generators: Record<string, (ctx: any) => any> }
+    context: RunnerContext
 ): Promise<EffectReport> {
     const startTime = Date.now()
     const report: EffectReport = {

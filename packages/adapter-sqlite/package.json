@@ -1,13 +1,19 @@
 {
-  "name": "@schema-seed/adapter-sqlite",
-  "version": "0.0.1",
+  "name": "@alinazar-111/schema-seed-adapter-sqlite",
+  "version": "0.1.0",
   "type": "module",
   "description": "SQLite adapter for schema-seed",
   "author": "Ali Nazar",
   "license": "MIT",
+  "private": false,
+  "sideEffects": false,
   "repository": {
     "type": "git",
-    "url": "https://github.com/AliNazar-111/schema-seed.git"
+    "url": "https://github.com/alinazar-111/schema-seed.git"
+  },
+  "homepage": "https://github.com/alinazar-111/schema-seed#readme",
+  "bugs": {
+    "url": "https://github.com/alinazar-111/schema-seed/issues"
   },
   "keywords": [
     "database",
@@ -27,21 +33,25 @@
     }
   },
   "files": [
-    "dist"
+    "dist",
+    "README.md",
+    "LICENSE"
   ],
   "scripts": {
     "build": "tsup",
+    "clean": "rm -rf dist",
     "dev": "tsup --watch",
     "lint": "eslint .",
     "test": "vitest run --passWithNoTests",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "prepublishOnly": "pnpm build"
   },
   "dependencies": {
-    "@schema-seed/core": "workspace:*",
-    "better-sqlite3": "^11.6.0"
+    "@alinazar-111/schema-seed-core": "workspace:*",
+    "better-sqlite3": "^11.3.0"
   },
   "devDependencies": {
-    "@types/better-sqlite3": "^7.6.13",
+    "@types/better-sqlite3": "^7.6.11",
     "tsup": "^8.3.5",
     "typescript": "^5.7.2",
     "vitest": "^2.1.8"

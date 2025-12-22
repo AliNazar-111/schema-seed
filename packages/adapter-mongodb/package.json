@@ -1,13 +1,19 @@
 {
-  "name": "@schema-seed/adapter-mongodb",
-  "version": "0.0.1",
+  "name": "@alinazar-111/schema-seed-adapter-mongodb",
+  "version": "0.1.0",
   "type": "module",
   "description": "MongoDB adapter for schema-seed",
   "author": "Ali Nazar",
   "license": "MIT",
+  "private": false,
+  "sideEffects": false,
   "repository": {
     "type": "git",
-    "url": "https://github.com/AliNazar-111/schema-seed.git"
+    "url": "https://github.com/alinazar-111/schema-seed.git"
+  },
+  "homepage": "https://github.com/alinazar-111/schema-seed#readme",
+  "bugs": {
+    "url": "https://github.com/alinazar-111/schema-seed/issues"
   },
   "keywords": [
     "database",
@@ -27,18 +33,22 @@
     }
   },
   "files": [
-    "dist"
+    "dist",
+    "README.md",
+    "LICENSE"
   ],
   "scripts": {
     "build": "tsup",
+    "clean": "rm -rf dist",
     "dev": "tsup --watch",
     "lint": "eslint .",
     "test": "vitest run --passWithNoTests",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "prepublishOnly": "pnpm build"
   },
   "dependencies": {
-    "@schema-seed/core": "workspace:*",
-    "mongodb": "^6.12.0"
+    "@alinazar-111/schema-seed-core": "workspace:*",
+    "mongodb": "^6.10.0"
   },
   "devDependencies": {
     "tsup": "^8.3.5",

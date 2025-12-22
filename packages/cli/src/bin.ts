@@ -1,15 +1,14 @@
-#!/usr/bin/env node
 import 'dotenv/config'
 import { Command } from 'commander'
 import {
-    version,
+    version as coreVersion,
     runSeedSql,
     runSeedMongo,
     createSeedPlan,
     reportToConsole,
     reportToJson
-} from '@schema-seed/core'
-import { generators, inferGenerator } from '@schema-seed/generators'
+} from '@alinazar-111/schema-seed-core'
+import { generators, inferGenerator } from '@alinazar-111/schema-seed-generators'
 import { loadConfig } from './config.mjs'
 import { writeFileSync } from 'node:fs'
 import { resolve } from 'node:path'
@@ -20,10 +19,10 @@ const program = new Command()
 program
     .name('schema-seed')
     .description('CLI to seed your database with realistic data')
-    .version(version)
+    .version(coreVersion)
 
 async function getAdapter(dbType: string, dbUrl: string) {
-    const packageName = `@schema-seed/adapter-${dbType}`
+    const packageName = `@alinazar-111/schema-seed-adapter-${dbType}`
     try {
         const module = await import(packageName)
         const adapterName = dbType.charAt(0).toUpperCase() + dbType.slice(1) + 'Adapter'
@@ -41,7 +40,7 @@ async function getAdapter(dbType: string, dbUrl: string) {
         return new AdapterClass(dbUrl)
     } catch (err: any) {
         if (err.code === 'ERR_MODULE_NOT_FOUND' || err.message.includes('Cannot find module')) {
-            throw new Error(`Adapter package ${packageName} not found. Please install it: npm install ${packageName}`)
+            throw new Error(`Adapter not installed. Run: pnpm add ${packageName}`)
         }
         throw new Error(`Failed to load adapter ${packageName}: ${err.message}`)
     }
@@ -123,7 +122,7 @@ commonOptions(program.command('seed'))
                 report = await runSeedMongo(adapter as any, mergedOptions as any, {
                     dryRun: mergedOptions.dryRun,
                     allowProduction: mergedOptions.allowProduction
-                }, { generators })
+                }, { generators, inferGenerator })
             } else {
                 await adapter.connect()
                 const schema = await (adapter as any).introspectSchema()

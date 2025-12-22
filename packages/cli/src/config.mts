@@ -1,7 +1,8 @@
 import { createJiti } from 'jiti'
 import { existsSync } from 'node:fs'
 import { resolve } from 'node:path'
-import { SeedOptions, MongoSeedConfig } from '@schema-seed/core'
+import { type SeedOptions } from '@alinazar-111/schema-seed-core'
+import { type MongoSeedConfig } from '@alinazar-111/schema-seed-core/mongo'
 
 export type Config = (SeedOptions & {
     db?: string

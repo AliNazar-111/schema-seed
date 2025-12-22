@@ -2,7 +2,7 @@ import { MongoClient, Db, Document } from 'mongodb'
 import {
   MongoAdapter,
   DbAdapter
-} from '@schema-seed/core'
+} from '@alinazar-111/schema-seed-core'
 
 export class MongodbAdapter implements MongoAdapter {
   private client: MongoClient
