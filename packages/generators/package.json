@@ -1,0 +1,47 @@
+{
+  "name": "@schema-seed/generators",
+  "version": "0.0.1",
+  "type": "module",
+  "description": "Data generators for schema-seed",
+  "author": "Ali Nazar",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/AliNazar-111/schema-seed.git"
+  },
+  "keywords": [
+    "database",
+    "seeding",
+    "test-data",
+    "faker",
+    "schema-seed"
+  ],
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "lint": "eslint .",
+    "test": "vitest run --passWithNoTests",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@schema-seed/core": "workspace:*"
+  },
+  "devDependencies": {
+    "tsup": "^8.3.5",
+    "typescript": "^5.7.2",
+    "vitest": "^2.1.8"
+  }
+}
