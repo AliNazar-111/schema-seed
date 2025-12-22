@@ -1,13 +1,13 @@
 import { createJiti } from 'jiti'
 import { existsSync } from 'node:fs'
 import { resolve } from 'node:path'
-import { SeedOptions } from '@schema-seed/core'
+import { SeedOptions, MongoSeedConfig } from '@schema-seed/core'
 
-export interface Config extends SeedOptions {
+export type Config = (SeedOptions & {
     db?: string
     dbType?: string
     overrides?: Record<string, any>
-}
+}) | MongoSeedConfig
 
 export async function loadConfig(configPath?: string): Promise<Config> {
     const jiti = createJiti(import.meta.url)

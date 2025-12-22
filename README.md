@@ -82,7 +82,9 @@ export default defineConfig({
 
 ```typescript
 // seed.config.ts
-export default {
+import { defineConfig } from '@schema-seed/cli';
+
+export default defineConfig({
   dbType: "mongodb",
   seed: 123, // Deterministic random seed
   // The seed option controls how random data is generated. When a seed value is provided (for example seed: 123), Schema-Seed will generate the same data every time you run the seeder with the same configuration. This makes database seeding deterministic and reproducible, which is especially useful for team environments, CI pipelines, debugging, and demos. Changing the seed value will produce a different, but still consistent, dataset. If no seed is provided, the generated data will be random on each run.
@@ -129,7 +131,7 @@ export default {
       }
     }
   }
-};
+});
 ```
 
 ### Key Features

@@ -1,6 +1,7 @@
-import { SeedOptions } from '@schema-seed/core'
+import { Config } from './config.mjs'
+export { Config } from './config.mjs'
 
-export function defineConfig(config: SeedOptions): SeedOptions {
+export function defineConfig(config: Config): Config {
     return config
 }
 
