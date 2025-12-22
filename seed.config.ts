@@ -3,7 +3,7 @@ import { NormalizedSqlType } from '@schema-seed/core'
 
 export default defineConfig({
     // Replace <password> with your actual MongoDB password
-    db: 'mongodb://alinazar_db_user:alikon123@ac-satzw1j-shard-00-02.hyedybk.mongodb.net:27017/gob_v2?ssl=true&authSource=admin&directConnection=true',
+    db: process.env.DB_URL,
 
     // MongoDB specific schema (since Mongo is schema-less, we define the fields we want to seed)
     mongoSchema: {

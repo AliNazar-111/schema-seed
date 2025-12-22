@@ -40,13 +40,14 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
+    "@schema-seed/adapter-mongodb": "workspace:*",
+    "@schema-seed/adapter-mysql": "workspace:*",
+    "@schema-seed/adapter-postgres": "workspace:*",
+    "@schema-seed/adapter-sqlite": "workspace:*",
     "@schema-seed/core": "workspace:*",
     "@schema-seed/generators": "workspace:*",
-    "@schema-seed/adapter-postgres": "workspace:*",
-    "@schema-seed/adapter-mysql": "workspace:*",
-    "@schema-seed/adapter-sqlite": "workspace:*",
-    "@schema-seed/adapter-mongodb": "workspace:*",
     "commander": "^12.1.0",
+    "dotenv": "^17.2.3",
     "jiti": "^2.6.1"
   },
   "devDependencies": {
