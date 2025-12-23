@@ -1,5 +1,15 @@
-# @schema-seed/adapter-mssql
+# schema-seed-adapter-mssql
 
-Part of the [schema-seed](https://github.com/AliNazar-111/schema-seed) project.
+Mssql adapter for [schema-seed](https://www.npmjs.com/package/schema-seed).
 
-For full documentation and usage, please visit the [main repository](https://github.com/AliNazar-111/schema-seed).
+## Installation
+
+```bash
+npm install schema-seed-adapter-mssql
+```
+
+## Usage
+
+This adapter is automatically loaded by the `schema-seed` CLI when a mssql connection string is used.
+
+For more information, visit the [main schema-seed documentation](https://github.com/AliNazar-111/schema-seed).

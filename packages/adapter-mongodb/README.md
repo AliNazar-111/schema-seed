@@ -1,5 +1,15 @@
-# @schema-seed/adapter-mongodb
+# schema-seed-adapter-mongodb
 
-Part of the [schema-seed](https://github.com/AliNazar-111/schema-seed) project.
+Mongodb adapter for [schema-seed](https://www.npmjs.com/package/schema-seed).
 
-For full documentation and usage, please visit the [main repository](https://github.com/AliNazar-111/schema-seed).
+## Installation
+
+```bash
+npm install schema-seed-adapter-mongodb
+```
+
+## Usage
+
+This adapter is automatically loaded by the `schema-seed` CLI when a mongodb connection string is used.
+
+For more information, visit the [main schema-seed documentation](https://github.com/AliNazar-111/schema-seed).

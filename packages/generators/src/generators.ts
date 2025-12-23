@@ -1,4 +1,4 @@
-import { Random } from '@alinazar-111/schema-seed-core'
+import { Random } from 'schema-seed-core'
 import * as data from './data.js'
 
 export interface GeneratorContext {

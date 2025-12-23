@@ -15,10 +15,10 @@
         "forceConsistentCasingInFileNames": true,
         "composite": false,
         "paths": {
-            "@schema-seed/core": [
+            "schema-seed-core": [
                 "./packages/core/src/index.ts"
             ],
-            "@schema-seed/generators": [
+            "schema-seed-generators": [
                 "./packages/generators/src/index.ts"
             ]
         }

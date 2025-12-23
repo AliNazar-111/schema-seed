@@ -1,6 +1,6 @@
 {
-  "name": "@alinazar-111/schema-seed-adapter-oracle",
-  "version": "0.1.0",
+  "name": "schema-seed-adapter-oracle",
+  "version": "0.1.4",
   "type": "module",
   "description": "Oracle adapter for schema-seed",
   "author": "Ali Nazar",
@@ -47,7 +47,7 @@
     "prepublishOnly": "pnpm build"
   },
   "dependencies": {
-    "@alinazar-111/schema-seed-core": "workspace:*",
+    "schema-seed-core": "workspace:*",
     "oracledb": "^6.6.0"
   },
   "devDependencies": {

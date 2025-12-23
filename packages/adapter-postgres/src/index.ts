@@ -7,7 +7,7 @@ import {
     NormalizedSqlType,
     TableSchema,
     ColumnSchema
-} from '@alinazar-111/schema-seed-core'
+} from 'schema-seed-core'
 
 export class PostgresAdapter implements SqlAdapter {
     private client: pg.Client

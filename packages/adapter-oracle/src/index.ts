@@ -6,7 +6,7 @@ import {
   NormalizedSqlType,
   TableSchema,
   ColumnSchema
-} from '@alinazar-111/schema-seed-core'
+} from 'schema-seed-core'
 
 export class OracleAdapter implements SqlAdapter {
   private connection: oracledb.Connection | null = null

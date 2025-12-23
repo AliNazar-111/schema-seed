@@ -8,12 +8,6 @@ importers:
 
   .:
     devDependencies:
-      '@alinazar-111/schema-seed':
-        specifier: workspace:*
-        version: link:packages/cli
-      '@alinazar-111/schema-seed-core':
-        specifier: workspace:*
-        version: link:packages/core
       '@changesets/cli':
         specifier: ^2.29.8
         version: 2.29.8(@types/node@20.19.27)
@@ -32,6 +26,12 @@ importers:
       prettier:
         specifier: ^3.4.2
         version: 3.7.4
+      schema-seed:
+        specifier: workspace:*
+        version: link:packages/cli
+      schema-seed-core:
+        specifier: workspace:*
+        version: link:packages/core
       tsup:
         specifier: ^8.3.5
         version: 8.5.1(jiti@2.6.1)(postcss@8.5.6)(typescript@5.9.3)
@@ -50,12 +50,12 @@ importers:
 
   packages/adapter-mongodb:
     dependencies:
-      '@alinazar-111/schema-seed-core':
-        specifier: workspace:*
-        version: link:../core
       mongodb:
         specifier: ^6.10.0
         version: 6.21.0
+      schema-seed-core:
+        specifier: workspace:*
+        version: link:../core
     devDependencies:
       tsup:
         specifier: ^8.3.5
@@ -69,12 +69,12 @@ importers:
 
   packages/adapter-mssql:
     dependencies:
-      '@alinazar-111/schema-seed-core':
-        specifier: workspace:*
-        version: link:../core
       mssql:
         specifier: ^11.0.1
         version: 11.0.1
+      schema-seed-core:
+        specifier: workspace:*
+        version: link:../core
     devDependencies:
       '@types/mssql':
         specifier: ^9.1.5
@@ -91,12 +91,12 @@ importers:
 
   packages/adapter-mysql:
     dependencies:
-      '@alinazar-111/schema-seed-core':
-        specifier: workspace:*
-        version: link:../core
       mysql2:
         specifier: ^3.11.3
         version: 3.16.0
+      schema-seed-core:
+        specifier: workspace:*
+        version: link:../core
     devDependencies:
       tsup:
         specifier: ^8.3.5
@@ -110,12 +110,12 @@ importers:
 
   packages/adapter-oracle:
     dependencies:
-      '@alinazar-111/schema-seed-core':
-        specifier: workspace:*
-        version: link:../core
       oracledb:
         specifier: ^6.6.0
         version: 6.10.0
+      schema-seed-core:
+        specifier: workspace:*
+        version: link:../core
     devDependencies:
       '@types/oracledb':
         specifier: ^6.10.0
@@ -132,12 +132,12 @@ importers:
 
   packages/adapter-postgres:
     dependencies:
-      '@alinazar-111/schema-seed-core':
-        specifier: workspace:*
-        version: link:../core
       pg:
         specifier: ^8.13.1
         version: 8.16.3
+      schema-seed-core:
+        specifier: workspace:*
+        version: link:../core
     devDependencies:
       '@types/pg':
         specifier: ^8.11.10
@@ -154,12 +154,12 @@ importers:
 
   packages/adapter-sqlite:
     dependencies:
-      '@alinazar-111/schema-seed-core':
-        specifier: workspace:*
-        version: link:../core
       better-sqlite3:
         specifier: ^11.3.0
         version: 11.10.0
+      schema-seed-core:
+        specifier: workspace:*
+        version: link:../core
     devDependencies:
       '@types/better-sqlite3':
         specifier: ^7.6.11
@@ -176,12 +176,6 @@ importers:
 
   packages/cli:
     dependencies:
-      '@alinazar-111/schema-seed-core':
-        specifier: workspace:*
-        version: link:../core
-      '@alinazar-111/schema-seed-generators':
-        specifier: workspace:*
-        version: link:../generators
       commander:
         specifier: ^12.1.0
         version: 12.1.0
@@ -191,28 +185,34 @@ importers:
       jiti:
         specifier: ^2.6.1
         version: 2.6.1
+      schema-seed-core:
+        specifier: workspace:*
+        version: link:../core
+      schema-seed-generators:
+        specifier: workspace:*
+        version: link:../generators
     devDependencies:
-      '@alinazar-111/schema-seed-adapter-mongodb':
-        specifier: workspace:*
-        version: link:../adapter-mongodb
-      '@alinazar-111/schema-seed-adapter-mssql':
-        specifier: workspace:*
-        version: link:../adapter-mssql
-      '@alinazar-111/schema-seed-adapter-mysql':
-        specifier: workspace:*
-        version: link:../adapter-mysql
-      '@alinazar-111/schema-seed-adapter-oracle':
-        specifier: workspace:*
-        version: link:../adapter-oracle
-      '@alinazar-111/schema-seed-adapter-postgres':
-        specifier: workspace:*
-        version: link:../adapter-postgres
-      '@alinazar-111/schema-seed-adapter-sqlite':
-        specifier: workspace:*
-        version: link:../adapter-sqlite
       '@types/node':
         specifier: ^20.19.27
         version: 20.19.27
+      schema-seed-adapter-mongodb:
+        specifier: workspace:*
+        version: link:../adapter-mongodb
+      schema-seed-adapter-mssql:
+        specifier: workspace:*
+        version: link:../adapter-mssql
+      schema-seed-adapter-mysql:
+        specifier: workspace:*
+        version: link:../adapter-mysql
+      schema-seed-adapter-oracle:
+        specifier: workspace:*
+        version: link:../adapter-oracle
+      schema-seed-adapter-postgres:
+        specifier: workspace:*
+        version: link:../adapter-postgres
+      schema-seed-adapter-sqlite:
+        specifier: workspace:*
+        version: link:../adapter-sqlite
       tsup:
         specifier: ^8.3.5
         version: 8.5.1(jiti@2.6.1)(postcss@8.5.6)(typescript@5.9.3)
@@ -237,7 +237,7 @@ importers:
 
   packages/generators:
     dependencies:
-      '@alinazar-111/schema-seed-core':
+      schema-seed-core:
         specifier: workspace:*
         version: link:../core
     devDependencies:

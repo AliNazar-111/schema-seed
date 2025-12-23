@@ -6,7 +6,7 @@ import {
   NormalizedSqlType,
   TableSchema,
   ColumnSchema
-} from '@alinazar-111/schema-seed-core'
+} from 'schema-seed-core'
 
 export class MySqlAdapter implements SqlAdapter {
   private connection: mysql.Connection | null = null

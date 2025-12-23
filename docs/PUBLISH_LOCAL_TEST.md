@@ -73,8 +73,8 @@ If you want to simulate a real installation in a separate project:
    ```
 2. In your test project, link the packages you need:
    ```bash
-   npm link @alinazar-111/schema-seed
-   npm link @alinazar-111/schema-seed-adapter-postgres
+   npm link schema-seed
+   npm link schema-seed-adapter-postgres
    ```
 
 ### Using Tarballs

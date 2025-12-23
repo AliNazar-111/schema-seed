@@ -1,5 +1,5 @@
-# @schema-seed/core
+# schema-seed-core
 
-Part of the [schema-seed](https://github.com/AliNazar-111/schema-seed) project.
+Core logic and types for [schema-seed](https://www.npmjs.com/package/schema-seed).
 
-For full documentation and usage, please visit the [main repository](https://github.com/AliNazar-111/schema-seed).
+For more information, visit the [main schema-seed documentation](https://github.com/AliNazar-111/schema-seed).

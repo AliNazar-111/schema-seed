@@ -1,6 +1,6 @@
 {
-  "name": "@alinazar-111/schema-seed-adapter-mssql",
-  "version": "0.1.0",
+  "name": "schema-seed-adapter-mssql",
+  "version": "0.1.4",
   "type": "module",
   "description": "MSSQL adapter for schema-seed",
   "author": "Ali Nazar",
@@ -47,7 +47,7 @@
     "prepublishOnly": "pnpm build"
   },
   "dependencies": {
-    "@alinazar-111/schema-seed-core": "workspace:*",
+    "schema-seed-core": "workspace:*",
     "mssql": "^11.0.1"
   },
   "devDependencies": {

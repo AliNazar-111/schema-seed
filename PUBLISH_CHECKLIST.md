@@ -40,7 +40,7 @@ Follow this checklist before every release to ensure a smooth and safe publishin
 ## 5. Post-Publish Verification
 - [ ] **NPX Test**: Verify the CLI works directly from NPM (after a few minutes for propagation).
   ```bash
-  npx @alinazar-111/schema-seed --help
+  npx schema-seed --help
   ```
 - [ ] **Tagging**: Ensure the release is tagged in Git (Changesets does this automatically during `version`).
 - [ ] **GitHub Release**: (Optional) Create a GitHub release from the tag.
@@ -50,5 +50,5 @@ Follow this checklist before every release to ensure a smooth and safe publishin
 ### ⚠️ Dependency Note
 The heavy adapters (`oracle` and `mssql`) are **not** included as direct dependencies of the CLI to keep the installation lightweight. Users must install them manually if needed:
 ```bash
-npm install @alinazar-111/schema-seed-adapter-oracle
+npm install schema-seed-adapter-oracle
 ```

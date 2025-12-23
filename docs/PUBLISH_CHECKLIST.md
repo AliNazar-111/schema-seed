@@ -1,6 +1,6 @@
 # Publish Checklist
 
-Follow this checklist to ensure a safe and successful release of the `@alinazar-111/schema-seed` packages.
+Follow this checklist to ensure a safe and successful release of the `schema-seed` packages.
 
 ## 1. Authentication
 - [ ] Ensure you are logged in to NPM with the correct account.
@@ -38,7 +38,7 @@ Follow this checklist to ensure a safe and successful release of the `@alinazar-
   ```bash
   mkdir test-publish && cd test-publish
   npm init -y
-  npm install @alinazar-111/schema-seed
+  npm install schema-seed
   npx schema-seed --help
   ```
 

@@ -1,7 +1,8 @@
+#!/usr/bin/env node
 import 'dotenv/config'
 import { Command } from 'commander'
 import {
-    version as coreVersion,
+    version,
     runSeedSql,
     runSeedMongo,
     createSeedPlan,
@@ -19,7 +20,7 @@ const program = new Command()
 program
     .name('schema-seed')
     .description('CLI to seed your database with realistic data')
-    .version(coreVersion)
+    .version(version)
 
 async function getAdapter(dbType: string, dbUrl: string) {
     const packageName = `schema-seed-adapter-${dbType}`
@@ -40,7 +41,7 @@ async function getAdapter(dbType: string, dbUrl: string) {
         return new AdapterClass(dbUrl)
     } catch (err: any) {
         if (err.code === 'ERR_MODULE_NOT_FOUND' || err.message.includes('Cannot find module')) {
-            throw new Error(`Adapter not installed. Run: pnpm add ${packageName}`)
+            throw new Error(`Adapter package ${packageName} not found. Please install it: npm install ${packageName}`)
         }
         throw new Error(`Failed to load adapter ${packageName}: ${err.message}`)
     }

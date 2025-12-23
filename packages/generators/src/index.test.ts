@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { Random } from '@alinazar-111/schema-seed-core'
+import { Random } from 'schema-seed-core'
 import { generators } from '../src/index.js'
 
 describe('generators', () => {

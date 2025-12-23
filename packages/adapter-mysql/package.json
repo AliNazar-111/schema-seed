@@ -1,6 +1,6 @@
 {
-  "name": "@alinazar-111/schema-seed-adapter-mysql",
-  "version": "0.1.0",
+  "name": "schema-seed-adapter-mysql",
+  "version": "0.1.4",
   "type": "module",
   "description": "MySQL adapter for schema-seed",
   "author": "Ali Nazar",
@@ -47,7 +47,7 @@
     "prepublishOnly": "pnpm build"
   },
   "dependencies": {
-    "@alinazar-111/schema-seed-core": "workspace:*",
+    "schema-seed-core": "workspace:*",
     "mysql2": "^3.11.3"
   },
   "devDependencies": {

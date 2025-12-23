@@ -4,15 +4,15 @@
   "commit": false,
   "fixed": [
     [
-      "@alinazar-111/schema-seed",
-      "@alinazar-111/schema-seed-core",
-      "@alinazar-111/schema-seed-generators",
-      "@alinazar-111/schema-seed-adapter-mongodb",
-      "@alinazar-111/schema-seed-adapter-mssql",
-      "@alinazar-111/schema-seed-adapter-mysql",
-      "@alinazar-111/schema-seed-adapter-oracle",
-      "@alinazar-111/schema-seed-adapter-postgres",
-      "@alinazar-111/schema-seed-adapter-sqlite"
+      "schema-seed",
+      "schema-seed-core",
+      "schema-seed-generators",
+      "schema-seed-adapter-mongodb",
+      "schema-seed-adapter-mssql",
+      "schema-seed-adapter-mysql",
+      "schema-seed-adapter-oracle",
+      "schema-seed-adapter-postgres",
+      "schema-seed-adapter-sqlite"
     ]
   ],
   "linked": [],

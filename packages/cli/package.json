@@ -1,6 +1,6 @@
 {
-    "name": "@alinazar-111/schema-seed",
-    "version": "0.1.0",
+    "name": "schema-seed",
+    "version": "0.1.4",
     "type": "module",
     "description": "CLI for schema-seed",
     "author": "Ali Nazar",
@@ -46,19 +46,19 @@
         "prepublishOnly": "pnpm build"
     },
     "dependencies": {
-        "@alinazar-111/schema-seed-core": "workspace:*",
-        "@alinazar-111/schema-seed-generators": "workspace:*",
+        "schema-seed-core": "workspace:*",
+        "schema-seed-generators": "workspace:*",
         "commander": "^12.1.0",
         "dotenv": "^17.2.3",
         "jiti": "^2.6.1"
     },
     "devDependencies": {
-        "@alinazar-111/schema-seed-adapter-mongodb": "workspace:*",
-        "@alinazar-111/schema-seed-adapter-mysql": "workspace:*",
-        "@alinazar-111/schema-seed-adapter-postgres": "workspace:*",
-        "@alinazar-111/schema-seed-adapter-sqlite": "workspace:*",
-        "@alinazar-111/schema-seed-adapter-mssql": "workspace:*",
-        "@alinazar-111/schema-seed-adapter-oracle": "workspace:*",
+        "schema-seed-adapter-mongodb": "workspace:*",
+        "schema-seed-adapter-mysql": "workspace:*",
+        "schema-seed-adapter-postgres": "workspace:*",
+        "schema-seed-adapter-sqlite": "workspace:*",
+        "schema-seed-adapter-mssql": "workspace:*",
+        "schema-seed-adapter-oracle": "workspace:*",
         "@types/node": "^20.19.27",
         "tsup": "^8.3.5",
         "typescript": "^5.7.2",

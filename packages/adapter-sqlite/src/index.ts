@@ -6,7 +6,7 @@ import {
   NormalizedSqlType,
   TableSchema,
   ColumnSchema
-} from '@alinazar-111/schema-seed-core'
+} from 'schema-seed-core'
 
 export class SqliteAdapter implements SqlAdapter {
   private db: Database.Database | null = null

@@ -62,7 +62,7 @@ If you want to see how the packages behave when "installed" in another project:
    ```bash
    mkdir test-project && cd test-project
    npm init -y
-   npm link @alinazar-111/schema-seed
+   npm link schema-seed
    npx schema-seed --help
    ```
 

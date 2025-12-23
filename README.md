@@ -15,172 +15,137 @@ A production-ready tool to seed your database with realistic, deterministic data
 ## Installation
 
 ```bash
-npm install -g @alinazar-111/schema-seed
+npm install -g schema-seed
 ```
 
-## Quick Start
+## Supported Databases
 
-### Seed All Tables
+| Database | Adapter Package | Connection String Example |
+| :--- | :--- | :--- |
+| **PostgreSQL** | `schema-seed-adapter-postgres` | `postgres://user:pass@localhost:5432/db` |
+| **MySQL** | `schema-seed-adapter-mysql` | `mysql://user:pass@localhost:3306/db` |
+| **SQLite** | `schema-seed-adapter-sqlite` | `sqlite://path/to/database.db` |
+| **SQL Server** | `schema-seed-adapter-mssql` | `sqlserver://user:pass@localhost:1433?database=db` |
+| **Oracle** | `schema-seed-adapter-oracle` | `oracle://user:pass@localhost:1521/service_name` |
+| **MongoDB** | `schema-seed-adapter-mongodb` | `mongodb://localhost:27017/db` |
+
+---
+
+## Database-Specific Usage
+
+### 🐘 PostgreSQL
+Seed all tables in a Postgres database:
 ```bash
-schema-seed seed --db "postgres://user:pass@localhost:5432/mydb" --all
+schema-seed seed --db "postgres://postgres:password@localhost:5432/my_db" --all
 ```
 
-### Seed Specific Table
+### 🐬 MySQL
+Seed 50 rows into the `users` table:
 ```bash
-schema-seed seed --db "mysql://user:pass@localhost:3306/mydb" --table users --rows 50
+schema-seed seed --db "mysql://root:password@127.0.0.1:3306/my_db" --table users --rows 50
 ```
 
-### Seed with Parents
-Automatically seeds parent tables required by foreign keys:
+### 📁 SQLite
+Seed a local SQLite file:
 ```bash
-schema-seed seed --db "sqlite://data.db" --table orders --with-parents
+schema-seed seed --db "sqlite://./dev.db" --all
 ```
 
-### Deterministic Seeding
-Generate the same data every time:
+### 🏢 Microsoft SQL Server (MSSQL)
+Seed with identity insert support:
 ```bash
-schema-seed seed --db "postgres://localhost/db" --all --seed "my-fixed-seed"
+schema-seed seed --db "sqlserver://sa:Password123!@localhost:1433?database=master" --all
 ```
 
-## Configuration (`seed.config.ts`)
-
-For advanced usage, create a `seed.config.ts` in your project root.
-
-```typescript
-import { defineConfig } from '@alinazar-111/schema-seed';
-
-export default defineConfig({
-  db: "postgres://localhost/mydb",
-  rows: 10,
-  overrides: {
-    users: {
-      // Custom logic
-      email: ({ i }) => `user${i}@example.com`,
-      // Weighted enum
-      status: { enum: ["active", "blocked"], weights: [95, 5] },
-      // Date range
-      created_at: { dateBetween: ["2024-01-01", "2025-12-31"] },
-      // Literal value
-      role: 'user'
-    }
-  },
-  hooks: {
-    beforeInsert: async (table, rows) => {
-      console.log(`Preparing ${rows.length} rows for ${table}`);
-      return rows;
-    }
-  },
-  plugins: ["@schema-seed/plugin-ecommerce"]
-});
+### 🔴 Oracle
+Seed an Oracle database:
+```bash
+schema-seed seed --db "oracle://system:password@localhost:1521/xe" --all
 ```
 
-## MongoDB Seeding (Config-Based)
-
-`schema-seed` supports MongoDB seeding exclusively through a `seed.config.ts` file. Since MongoDB is schema-less, you must define the structure of the documents you want to generate.
-
-### Example Configuration
+### 🍃 MongoDB (Config-Based)
+Since MongoDB is schema-less, you must define your collection structures in a `seed.config.ts` file.
 
 ```typescript
 // seed.config.ts
-import { defineConfig } from '@alinazar-111/schema-seed';
+import { defineConfig } from 'schema-seed';
 
 export default defineConfig({
   dbType: "mongodb",
-  seed: 123, // Deterministic random seed
-  // The seed option controls how random data is generated. When a seed value is provided (for example seed: 123), Schema-Seed will generate the same data every time you run the seeder with the same configuration. This makes database seeding deterministic and reproducible, which is especially useful for team environments, CI pipelines, debugging, and demos. Changing the seed value will produce a different, but still consistent, dataset. If no seed is provided, the generated data will be random on each run.
   mongodb: {
     uri: "mongodb://localhost:27017/appdb",
-
     collections: {
       users: {
-        rows: 200,
+        rows: 100,
         fields: {
           _id: "objectId",
           email: { type: "email", unique: true },
-          firstName: "firstName",
-          lastName: "lastName",
-          age: { type: "int", min: 18, max: 65 },
-          status: {
-            type: "enum",
-            values: ["active", "blocked"],
-            weights: [95, 5]
-          },
-          profile: {
-            type: "object",
-            fields: {
-              city: "city",
-              country: "country"
-            }
-          },
-          createdAt: {
-            type: "dateBetween",
-            from: "2024-01-01",
-            to: "2025-12-31"
-          }
-        }
-      },
-
-      orders: {
-        rows: 500,
-        fields: {
-          _id: "objectId",
-          userId: { ref: "users._id" }, // Reference to another collection
-          total: { type: "decimal", min: 5, max: 500 },
-          createdAt: "dateRecent"
+          name: "fullName",
+          age: { type: "int", min: 18, max: 99 }
         }
       }
     }
   }
 });
 ```
+Then run:
+```bash
+schema-seed seed
+```
 
-### Key Features
+---
 
-- **References**: Use `{ ref: "collection.field" }` to link documents across collections. `schema-seed` automatically calculates the correct insertion order.
-- **Nested Objects**: Define complex structures using the `object` type and a nested `fields` map.
-- **Arrays**: Use the `array` type with `of` to generate lists of values.
-- **Deterministic**: Provide a `seed` at the top level to ensure the same data is generated every time.
-- **Safety**: Production detection prevents accidental seeding of live databases unless `--allow-production` is used.
+## Advanced Configuration (`seed.config.ts`)
 
+For complex seeding logic, create a `seed.config.ts` in your project root.
+
+```typescript
+import { defineConfig } from 'schema-seed';
+
+export default defineConfig({
+  db: "postgres://localhost/mydb",
+  rows: 10,
+  overrides: {
+    users: {
+      // Custom function
+      email: ({ i }) => `user${i}@example.com`,
+      // Weighted enum (95% active, 5% blocked)
+      status: { enum: ["active", "blocked"], weights: [95, 5] },
+      // Date range
+      created_at: { dateBetween: ["2024-01-01", "2025-12-31"] },
+      // Constant value
+      role: 'user'
+    }
+  },
+  hooks: {
+    beforeInsert: async (table, rows) => {
+      console.log(`Seeding ${table}...`);
+      return rows;
+    }
+  }
+});
+```
+
+## CLI Reference
+
+| Flag | Description | Default |
+| :--- | :--- | :--- |
+| `--db <url>` | Database connection string | - |
+| `--dbType <type>` | Force database type (postgres, mysql, etc.) | Auto-inferred |
+| `--all` | Seed all discovered tables | `true` |
+| `--table <names...>` | Seed specific tables only | - |
+| `--rows <n>` | Number of rows per table | `10` |
+| `--seed <string>` | Fixed seed for deterministic data | Random |
+| `--dry-run` | Preview changes without writing to DB | `false` |
+| `--truncate` | Delete all data from tables before seeding | `false` |
+| `--with-parents` | Automatically seed required parent tables | `false` |
+| `--confirm <str>` | Require a confirmation string (for safety) | - |
+| `--allow-production`| Allow running against production hosts | `false` |
 
 ## Safety Features
 
-- **Production Check**: Refuses to run if `NODE_ENV=production` or if the DB host looks like production. Use `--allow-production` to override.
-- **Confirmation**: Require a typed string to proceed.
-  ```bash
-  schema-seed seed --db "postgres://prod-db/db" --allow-production --confirm "SEED_PROD"
-  ```
-
-## Supported Adapters
-
-- `@alinazar-111/schema-seed-adapter-postgres`
-- `@alinazar-111/schema-seed-adapter-mysql`
-- `@alinazar-111/schema-seed-adapter-sqlite`
-- `@alinazar-111/schema-seed-adapter-mssql`
-- `@alinazar-111/schema-seed-adapter-oracle`
-- `@alinazar-111/schema-seed-adapter-mongodb`
-
-## Contributing
-
-Please see [CONTRIBUTING.md](./CONTRIBUTING.md) for details on how to get involved.
-
-## NPM Publishing
-
-To publish packages via GitHub Actions, you must add an `NPM_TOKEN` to your GitHub repository secrets:
-1. Generate an **Automation** token on [npmjs.com](https://www.npmjs.com/).
-2. In your GitHub repo, go to **Settings > Secrets and variables > Actions**.
-3. Add a new repository secret named `NPM_TOKEN` with your token value.
-
-## Releasing (for Maintainers)
-
-This project uses [Changesets](https://github.com/changesets/changesets) for versioning and publishing.
-
-1. **Record changes**: Run `pnpm changeset` and follow the prompts.
-2. **Version packages**: Run `pnpm version-packages` to bump versions and update changelogs.
-3. **Verify**: Run `pnpm preflight:release` to build, test, and validate package contents.
-4. **Publish**: Run `pnpm release` to push to NPM.
-
-*Note: Scoped packages require public access on first publish. Changesets handles this via the config, but if prompted, use `--access public`.*
+- **Production Detection**: The tool will refuse to run if the database host looks like a production environment (e.g., `aws.com`, `rds.com`) or if `NODE_ENV=production`, unless the `--allow-production` flag is provided.
+- **Confirmation**: Use `--confirm "YES"` to force a manual confirmation step before seeding.
 
 ## License
 
