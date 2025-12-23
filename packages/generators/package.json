@@ -1,6 +1,6 @@
 {
     "name": "schema-seed-generators",
-    "version": "0.1.7",
+    "version": "0.1.8",
     "type": "module",
     "description": "Data generators for schema-seed",
     "author": "Ali Nazar",

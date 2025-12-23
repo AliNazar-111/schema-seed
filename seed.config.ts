@@ -2,7 +2,7 @@ export default {
     dbType: 'mongodb',
     seed: 123,
     mongodb: {
-        uri: 'mongodb://localhost:27017/appdb',
+        uri: 'mongodb+srv://alinazar_db_user:alikon123@cluster0.hyedybk.mongodb.net/?appName=Cluster0',
 
         collections: {
             users: {

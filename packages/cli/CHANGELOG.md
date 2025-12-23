@@ -1,5 +1,16 @@
 # schema-seed
 
+## 0.1.8
+
+### Patch Changes
+
+- Fix critical bug where global CLI used outdated adapter loading logic.
+  - Merged CLI logic into a single entry point to prevent duplicate/outdated code.
+  - Verified adapter loading works for all databases in a local project environment.
+  - Improved error handling and connection string detection.
+  - schema-seed-core@0.1.8
+  - schema-seed-generators@0.1.8
+
 ## 0.1.7
 
 ### Patch Changes
