@@ -11,9 +11,11 @@ import {
 } from 'schema-seed-core'
 import { generators, inferGenerator } from 'schema-seed-generators'
 import { loadConfig } from './config.mjs'
-import { writeFileSync } from 'node:fs'
+import { writeFileSync, existsSync } from 'node:fs'
 import { resolve } from 'node:path'
 import { createInterface } from 'node:readline/promises'
+import { createRequire } from 'node:module'
+import { pathToFileURL } from 'node:url'
 
 const program = new Command()
 
@@ -28,12 +30,13 @@ async function getAdapter(dbType: string, dbUrl: string) {
 
     const tryImport = async (name: string) => {
         try {
-            // Try to resolve from the current working directory first
-            const localPath = resolve(process.cwd(), 'node_modules', name)
-            return await import(localPath)
-        } catch {
+            // Use createRequire to resolve the package from the current working directory
+            const require = createRequire(resolve(process.cwd(), 'index.js'))
+            const packagePath = require.resolve(name)
+            return await import(pathToFileURL(packagePath).href)
+        } catch (err) {
             try {
-                // Fallback to standard import
+                // Fallback to standard import (for globally installed adapters)
                 return await import(name)
             } catch {
                 return null

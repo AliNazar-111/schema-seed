@@ -1,5 +1,11 @@
 # schema-seed-adapter-sqlite
 
+## 0.1.7
+
+### Patch Changes
+
+- schema-seed-core@0.1.7
+
 ## 0.1.6
 
 ### Patch Changes

@@ -1,5 +1,15 @@
 # schema-seed
 
+## 0.1.7
+
+### Patch Changes
+
+- Fix adapter loading by using createRequire to resolve paths from the current working directory.
+  - Ensures global CLI can find locally installed adapters.
+  - Uses pathToFileURL for ESM compatibility with absolute paths.
+  - schema-seed-core@0.1.7
+  - schema-seed-generators@0.1.7
+
 ## 0.1.6
 
 ### Patch Changes
