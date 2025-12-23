@@ -1,5 +1,11 @@
 # schema-seed-adapter-mongodb
 
+## 0.1.9
+
+### Patch Changes
+
+- schema-seed-core@0.1.9
+
 ## 0.1.8
 
 ### Patch Changes

@@ -1,6 +1,6 @@
 {
     "name": "schema-seed-adapter-postgres",
-    "version": "0.1.8",
+    "version": "0.1.9",
     "type": "module",
     "description": "PostgreSQL adapter for schema-seed",
     "author": "Ali Nazar",

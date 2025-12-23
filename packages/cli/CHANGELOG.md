@@ -1,5 +1,14 @@
 # schema-seed
 
+## 0.1.9
+
+### Patch Changes
+
+- 4d43672: Fix logic for default rows count when not specified in config or flags.
+- 4d43672: Update README with full installation commands for all adapters.
+  - schema-seed-core@0.1.9
+  - schema-seed-generators@0.1.9
+
 ## 0.1.8
 
 ### Patch Changes
