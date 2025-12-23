@@ -119,7 +119,7 @@ commonOptions(program.command('seed'))
             const mergedOptions = { ...config, ...options }
 
             // Handle rows default (commander default was overriding config)
-            if (options.rows === undefined && config.rows === undefined) {
+            if (options.rows === undefined && (config as any).rows === undefined) {
                 mergedOptions.rows = 10
             }
 

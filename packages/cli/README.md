@@ -20,14 +20,14 @@ npm install -g schema-seed
 
 ## Supported Databases
 
-| Database | Adapter Package | Connection String Example |
-| :--- | :--- | :--- |
-| **PostgreSQL** | `schema-seed-adapter-postgres` | `postgres://user:pass@localhost:5432/db` |
-| **MySQL** | `schema-seed-adapter-mysql` | `mysql://user:pass@localhost:3306/db` |
-| **SQLite** | `schema-seed-adapter-sqlite` | `sqlite://path/to/database.db` |
-| **SQL Server** | `schema-seed-adapter-mssql` | `sqlserver://user:pass@localhost:1433?database=db` |
-| **Oracle** | `schema-seed-adapter-oracle` | `oracle://user:pass@localhost:1521/service_name` |
-| **MongoDB** | `schema-seed-adapter-mongodb` | `mongodb://localhost:27017/db` |
+| Database | Adapter Package | Install Command | Connection String Example |
+| :--- | :--- | :--- | :--- |
+| **PostgreSQL** | `schema-seed-adapter-postgres` | `npm install -D schema-seed-adapter-postgres` | `postgres://user:pass@localhost:5432/db` |
+| **MySQL** | `schema-seed-adapter-mysql` | `npm install -D schema-seed-adapter-mysql` | `mysql://user:pass@localhost:3306/db` |
+| **SQLite** | `schema-seed-adapter-sqlite` | `npm install -D schema-seed-adapter-sqlite` | `sqlite://path/to/database.db` |
+| **SQL Server** | `schema-seed-adapter-mssql` | `npm install -D schema-seed-adapter-mssql` | `sqlserver://user:pass@localhost:1433?database=db` |
+| **Oracle** | `schema-seed-adapter-oracle` | `npm install -D schema-seed-adapter-oracle` | `oracle://user:pass@localhost:1521/service_name` |
+| **MongoDB** | `schema-seed-adapter-mongodb` | `npm install -D schema-seed-adapter-mongodb` | `mongodb://localhost:27017/db` |
 
 ---
 
