@@ -12,18 +12,32 @@ export type Config = (SeedOptions & {
 
 export async function loadConfig(configPath?: string): Promise<Config> {
     const jiti = createJiti(import.meta.url)
-    const paths = configPath
-        ? [resolve(process.cwd(), configPath)]
-        : [
-            resolve(process.cwd(), 'seed.config.ts'),
-            resolve(process.cwd(), 'seed.config.js'),
-            resolve(process.cwd(), 'seed.config.mjs'),
-        ]
 
-    for (const path of paths) {
+    if (configPath) {
+        const fullPath = resolve(process.cwd(), configPath)
+        if (!existsSync(fullPath)) {
+            throw new Error(`Config file not found at ${fullPath}`)
+        }
+        const module = await jiti.import(fullPath) as any
+        console.log(`✅ Loaded config from ${configPath}`)
+        return module.default || module
+    }
+
+    const defaultPaths = [
+        resolve(process.cwd(), 'seed.config.ts'),
+        resolve(process.cwd(), 'seed.config.js'),
+        resolve(process.cwd(), 'seed.config.mjs'),
+    ]
+
+    for (const path of defaultPaths) {
         if (existsSync(path)) {
-            const module = await jiti.import(path) as any
-            return module.default || module
+            try {
+                const module = await jiti.import(path) as any
+                console.log(`✅ Loaded config from ${path}`)
+                return module.default || module
+            } catch (err: any) {
+                throw new Error(`Failed to load config file ${path}: ${err.message}`)
+            }
         }
     }
 

@@ -1,5 +1,28 @@
 # schema-seed
 
+## 0.1.6
+
+### Patch Changes
+
+- Fix adapter loading when CLI is installed globally.
+  - CLI now correctly searches for adapters in the project's local node_modules.
+  - Added support for both unscoped and scoped adapter names.
+  - Improved error messages for missing adapters.
+  - schema-seed-core@0.1.6
+  - schema-seed-generators@0.1.6
+
+## 0.1.5
+
+### Patch Changes
+
+- Improve CLI config loading and error messaging.
+  - Added verbose logging when a config file is loaded.
+  - Fixed an issue where CLI defaults would override config file values.
+  - Improved error messages for missing database connection strings.
+  - Added explicit error if a specified config file is not found.
+  - schema-seed-core@0.1.5
+  - schema-seed-generators@0.1.5
+
 ## 0.1.4
 
 ### Patch Changes
