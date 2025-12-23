@@ -116,7 +116,11 @@ commonOptions(program.command('seed'))
             const config = await loadConfig(options.config)
 
             // Merge options: CLI flags override config file
-            const mergedOptions = { ...config, ...options }
+            // Merge options: CLI flags override config file
+            const cleanOptions = Object.fromEntries(
+                Object.entries(options).filter(([_, v]) => v !== undefined)
+            )
+            const mergedOptions = { ...config, ...cleanOptions }
 
             // Handle rows default (commander default was overriding config)
             if (options.rows === undefined && (config as any).rows === undefined) {
