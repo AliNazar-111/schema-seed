@@ -1,5 +1,11 @@
 # schema-seed-adapter-postgres
 
+## 0.1.10
+
+### Patch Changes
+
+- schema-seed-core@0.1.10
+
 ## 0.1.9
 
 ### Patch Changes

@@ -1,5 +1,13 @@
 # schema-seed
 
+## 0.1.10
+
+### Patch Changes
+
+- 1c7b630: Fix bug where CLI options would overwrite config file values with undefined.
+  - schema-seed-core@0.1.10
+  - schema-seed-generators@0.1.10
+
 ## 0.1.9
 
 ### Patch Changes
