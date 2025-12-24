@@ -40,13 +40,15 @@ export interface MongoFieldConfigObject {
 export type MongoFieldConfig = MongoFieldType | MongoFieldConfigObject
 
 export interface MongoCollectionConfig {
-    rows: number
+    rows?: number
     fields: Record<string, MongoFieldConfig>
 }
 
 export interface MongoSeedConfig {
     dbType: 'mongodb'
     seed?: number | string
+    truncate?: boolean
+    rows?: number
     mongodb: {
         uri: string
         collections: Record<string, MongoCollectionConfig>

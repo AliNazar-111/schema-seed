@@ -1,6 +1,6 @@
 {
     "name": "schema-seed-generators",
-    "version": "0.1.10",
+    "version": "0.1.16",
     "type": "module",
     "description": "Data generators for schema-seed",
     "author": "Ali Nazar",
@@ -52,7 +52,7 @@
         "prepublishOnly": "pnpm build"
     },
     "dependencies": {
-        "schema-seed-core": "workspace:*"
+        "schema-seed-core": "^0.1.16"
     },
     "devDependencies": {
         "tsup": "^8.3.5",

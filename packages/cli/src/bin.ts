@@ -160,7 +160,8 @@ commonOptions(program.command('seed'))
             if (dbType === 'mongodb') {
                 report = await runSeedMongo(adapter as any, mergedOptions as any, {
                     dryRun: mergedOptions.dryRun,
-                    allowProduction: mergedOptions.allowProduction
+                    allowProduction: mergedOptions.allowProduction,
+                    truncate: mergedOptions.truncate
                 }, { generators, inferGenerator })
             } else {
                 await adapter.connect()
@@ -198,16 +199,114 @@ program.command('reset')
     .option('--db <url>', 'Database connection string')
     .option('--allow-production', 'Allow running against production databases')
     .action(async (options) => {
-        console.log('Resetting database...')
-        // Implementation would call adapter.truncateTables()
+        try {
+            const config = await loadConfig()
+            const mergedOptions = { ...config, ...options }
+
+            let dbUrl = mergedOptions.db
+            if (mergedOptions.dbType === 'mongodb' && mergedOptions.mongodb?.uri) {
+                dbUrl = mergedOptions.mongodb.uri
+            }
+
+            if (!dbUrl) {
+                console.error('❌ Error: Database connection string is required.')
+                process.exit(1)
+            }
+
+            const dbType = mergedOptions.dbType || inferDbType(dbUrl)
+            const adapter = await getAdapter(dbType, dbUrl)
+
+            if (mergedOptions.allowProduction !== true) {
+                // Basic production check
+                const prodKeywords = ['prod', 'production', 'live', 'cloud', 'aws', 'azure', 'gcp']
+                if (prodKeywords.some(kw => dbUrl.toLowerCase().includes(kw))) {
+                    console.error('❌ Error: Refusing to reset a potential production database.')
+                    console.error('   Use --allow-production to override.')
+                    process.exit(1)
+                }
+            }
+
+            await adapter.connect()
+
+            if (dbType === 'mongodb') {
+                const mongoAdapter = adapter as any
+                let collections: string[] = []
+
+                if (mergedOptions.mongodb?.collections) {
+                    collections = Object.keys(mergedOptions.mongodb.collections)
+                } else if (mongoAdapter.introspectCollections) {
+                    const introspected = await mongoAdapter.introspectCollections()
+                    collections = introspected.map((c: any) => c.name)
+                }
+
+                if (collections.length === 0) {
+                    console.warn('⚠️  No collections found to reset.')
+                } else {
+                    console.log(`🗑️  Resetting ${collections.length} collections...`)
+                    if (mongoAdapter.truncateCollections) {
+                        await mongoAdapter.truncateCollections(collections)
+                        console.log('✅ Database reset complete.')
+                    } else {
+                        console.error('❌ Error: Adapter does not support truncation.')
+                    }
+                }
+            } else {
+                const sqlAdapter = adapter as any
+                console.log('🔍 Introspecting database...')
+                const schema = await sqlAdapter.introspectSchema()
+                const tableNames = Object.keys(schema.tables)
+
+                if (tableNames.length === 0) {
+                    console.warn('⚠️  No tables found to reset.')
+                } else {
+                    console.log(`🗑️  Resetting ${tableNames.length} tables...`)
+                    await sqlAdapter.truncateTables(tableNames)
+                    console.log('✅ Database reset complete.')
+                }
+            }
+
+            await adapter.disconnect()
+        } catch (err: any) {
+            console.error(`\n❌ Error: ${err.message}`)
+            process.exit(1)
+        }
     })
 
 program.command('introspect')
     .description('Introspect the database schema and print as JSON')
     .option('--db <url>', 'Database connection string')
     .action(async (options) => {
-        console.log('Introspecting database...')
-        // Implementation would call adapter.introspectSchema()
+        try {
+            const config = await loadConfig()
+            const mergedOptions = { ...config, ...options }
+
+            let dbUrl = mergedOptions.db
+            if (mergedOptions.dbType === 'mongodb' && mergedOptions.mongodb?.uri) {
+                dbUrl = mergedOptions.mongodb.uri
+            }
+
+            if (!dbUrl) {
+                console.error('❌ Error: Database connection string is required.')
+                process.exit(1)
+            }
+
+            const dbType = mergedOptions.dbType || inferDbType(dbUrl)
+            const adapter = await getAdapter(dbType, dbUrl)
+
+            await adapter.connect()
+
+            if (dbType === 'mongodb') {
+                console.error('❌ Introspection not yet supported for MongoDB CLI output.')
+            } else {
+                const schema = await (adapter as any).introspectSchema()
+                console.log(JSON.stringify(schema, null, 2))
+            }
+
+            await adapter.disconnect()
+        } catch (err: any) {
+            console.error(`\n❌ Error: ${err.message}`)
+            process.exit(1)
+        }
     })
 
 program.parse()

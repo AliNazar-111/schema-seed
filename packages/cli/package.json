@@ -1,6 +1,6 @@
 {
     "name": "schema-seed",
-    "version": "0.1.10",
+    "version": "0.1.16",
     "type": "module",
     "description": "CLI for schema-seed",
     "author": "Ali Nazar",
@@ -46,8 +46,8 @@
         "prepublishOnly": "pnpm build"
     },
     "dependencies": {
-        "schema-seed-core": "workspace:*",
-        "schema-seed-generators": "workspace:*",
+        "schema-seed-core": "^0.1.16",
+        "schema-seed-generators": "^0.1.16",
         "commander": "^12.1.0",
         "dotenv": "^17.2.3",
         "jiti": "^2.6.1"

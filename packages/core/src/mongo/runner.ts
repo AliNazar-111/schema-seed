@@ -33,7 +33,7 @@ function checkProductionSafety(options: { allowProduction?: boolean }, dbUrl?: s
 export async function runSeedMongo(
     adapter: MongoAdapter,
     config: MongoSeedConfig,
-    options: { dryRun?: boolean; allowProduction?: boolean } = {},
+    options: { dryRun?: boolean; allowProduction?: boolean; truncate?: boolean } = {},
     context: RunnerContext
 ): Promise<EffectReport> {
     const startTime = Date.now()
@@ -55,7 +55,8 @@ export async function runSeedMongo(
     }
 
     for (const [name, coll] of Object.entries(config.mongodb.collections) as [string, MongoCollectionConfig][]) {
-        if (coll.rows <= 0) {
+        const rows = coll.rows ?? 10
+        if (rows <= 0) {
             throw new Error(`Collection ${name} must have rows > 0.`)
         }
         if (!coll.fields || Object.keys(coll.fields).length === 0) {
@@ -76,13 +77,22 @@ export async function runSeedMongo(
 
         const plan = createMongoPlan(config)
 
+        if ((config.truncate || options.truncate) && plan.length > 0) {
+            if (!options.dryRun && adapter.truncateCollections) {
+                console.log(`🧹 Truncating ${plan.length} collections...`)
+                await adapter.truncateCollections(plan)
+            }
+        }
+
         for (const collName of plan) {
             const collStartTime = Date.now()
             const collConfig = config.mongodb.collections[collName]
+            // Use global rows override if present, otherwise use collection config, otherwise default to 10
+            const rows = config.rows ?? collConfig.rows ?? 10
             const docs: any[] = []
 
             try {
-                for (let i = 0; i < collConfig.rows; i++) {
+                for (let i = 0; i < rows; i++) {
                     const doc = generateMongoDocument(collConfig.fields, {
                         random,
                         refs,
@@ -91,15 +101,15 @@ export async function runSeedMongo(
                     docs.push(doc)
                 }
 
+                // Store IDs for references (do this even in dry-run so subsequent tables can resolve refs)
+                for (const doc of docs) {
+                    if (doc._id) {
+                        refs.addReference(collName, doc._id)
+                    }
+                }
+
                 if (!options.dryRun) {
                     await adapter.insertMany(collName, docs)
-
-                    // Store IDs for references
-                    for (const doc of docs) {
-                        if (doc._id) {
-                            refs.addReference(collName, doc._id)
-                        }
-                    }
                 }
 
                 report.tables[collName] = {

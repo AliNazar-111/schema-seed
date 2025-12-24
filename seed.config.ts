@@ -6,7 +6,6 @@ export default {
 
         collections: {
             users: {
-                rows: 10,
                 fields: {
                     _id: 'objectId',
                     email: { type: 'email', unique: true },

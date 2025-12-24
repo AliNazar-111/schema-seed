@@ -1,6 +1,6 @@
 {
   "name": "schema-seed-adapter-mssql",
-  "version": "0.1.10",
+  "version": "0.1.16",
   "type": "module",
   "description": "MSSQL adapter for schema-seed",
   "author": "Ali Nazar",

@@ -64,34 +64,100 @@ schema-seed seed --db "oracle://system:password@localhost:1521/xe" --all
 ```
 
 ### 🍃 MongoDB (Config-Based)
-Since MongoDB is schema-less, you must define your collection structures in a `seed.config.ts` file.
+Since MongoDB is schema-less, you **must** define your collection structures in a `seed.config.ts` file. This file tells `schema-seed` what collections to create, how many documents to generate, and what fields each document should have.
+
+#### 1. Create a `seed.config.ts` file
+Create this file in your project root. Here is a comprehensive example:
 
 ```typescript
 // seed.config.ts
 import { defineConfig } from 'schema-seed';
 
 export default defineConfig({
-  dbType: "mongodb",
+  dbType: 'mongodb',
+  // Optional: Set a fixed seed for deterministic data (same data every run)
+  seed: 123, 
+  // Optional: Truncate collections before seeding (can also use CLI flag --truncate)
+  truncate: true,
+  
   mongodb: {
-    uri: "mongodb://localhost:27017/appdb",
+    // Connection string
+    uri: 'mongodb+srv://user:pass@cluster0.mongodb.net/my_db',
+
     collections: {
       users: {
-        rows: 100,
+        // Optional: Number of documents to generate (defaults to 10 if omitted)
+        rows: 20,
         fields: {
-          _id: "objectId",
-          email: { type: "email", unique: true },
-          name: "fullName",
-          age: { type: "int", min: 18, max: 99 }
+          _id: 'objectId', // Generates a MongoDB ObjectId
+          email: { type: 'email', unique: true }, // Unique email
+          firstName: 'firstName',
+          lastName: 'lastName',
+          age: { type: 'int', min: 18, max: 65 },
+          status: {
+            type: 'enum',
+            values: ['active', 'blocked'],
+            weights: [95, 5] // 95% active, 5% blocked
+          },
+          // Nested objects are fully supported
+          profile: {
+            type: 'object',
+            fields: {
+              city: 'city',
+              country: 'country'
+            }
+          },
+          createdAt: {
+            type: 'dateBetween',
+            from: '2024-01-01',
+            to: '2025-12-31'
+          }
+        }
+      },
+
+      orders: {
+        rows: 50,
+        fields: {
+          _id: 'objectId',
+          
+          /** 🔗 Reference to users._id */
+          userId: {
+            type: 'objectId',
+            ref: 'users' // Automatically picks a random _id from the 'users' collection
+          },
+
+          total: { type: 'decimal', min: 5, max: 500 },
+          createdAt: 'dateRecent'
         }
       }
     }
   }
 });
 ```
-Then run:
+
+#### 2. Run the Seed Command
+Once your config is ready, run the seed command:
+
 ```bash
 schema-seed seed
 ```
+
+#### MongoDB CLI Commands & Flags
+
+| Command / Flag | Description | Example |
+| :--- | :--- | :--- |
+| **`seed`** | Main command to seed data. | `schema-seed seed` |
+| `--truncate` | **Important**: Clears all data from the defined collections before seeding. Prevents duplicate key errors. | `schema-seed seed --truncate` |
+| `--rows <n>` | Overrides the `rows` count for **ALL** collections in your config. | `schema-seed seed --rows 5` |
+| `--dry-run` | Generates data and checks references but **DOES NOT** write to the database. Useful for testing config. | `schema-seed seed --dry-run` |
+| `--db <uri>` | Override the connection URI from the CLI. | `schema-seed seed --db "mongodb://..."` |
+
+#### Key Features for MongoDB
+
+- **References (`ref`)**: Use `{ ref: 'collection_name' }` to populate a field with an `_id` from another collection. `schema-seed` automatically handles the insertion order (e.g., creates `users` before `orders`).
+- **Truncation**: Use `truncate: true` in config or `--truncate` flag to clean the database before seeding.
+- **Defaults**: If `rows` is not specified for a collection, it defaults to **10 documents**.
+- **Determinism**: Set `seed: 123` (or any number) to generate the exact same dataset every time. Remove it for random data.
 
 ---
 
@@ -128,6 +194,9 @@ export default defineConfig({
 
 ## CLI Reference
 
+### `seed`
+Seed the database with generated data.
+
 | Flag | Description | Default |
 | :--- | :--- | :--- |
 | `--db <url>` | Database connection string | - |
@@ -141,6 +210,30 @@ export default defineConfig({
 | `--with-parents` | Automatically seed required parent tables | `false` |
 | `--confirm <str>` | Require a confirmation string (for safety) | - |
 | `--allow-production`| Allow running against production hosts | `false` |
+| `--out <path>` | Output the seeding report to a JSON file | - |
+
+### `reset`
+Truncate all tables in the database. Useful for clearing data before a fresh seed or test run.
+
+```bash
+schema-seed reset --db "postgres://..."
+```
+
+| Flag | Description |
+| :--- | :--- |
+| `--db <url>` | Database connection string |
+| `--allow-production`| Allow running against production hosts |
+
+### `introspect`
+Introspect the database schema and print it as a JSON object. This is useful for debugging or generating a schema snapshot.
+
+```bash
+schema-seed introspect --db "postgres://..." > schema.json
+```
+
+| Flag | Description |
+| :--- | :--- |
+| `--db <url>` | Database connection string |
 
 ## Safety Features
 
